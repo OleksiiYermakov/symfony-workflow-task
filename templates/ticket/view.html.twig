@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ticket #{{ ticket.id }} {% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div>
+            <h1>Ticket #{{ ticket.id }}</h1>
+            <dl>
+                <dt>Status</dt>
+                <dd>{{ workflow_marked_places(ticket, true, workflowName) | join(', ') }}</dd>
+            </dl>
+            <a href="{{ path('ticket_index') }}" class="btn btn-outline-primary btn-sm"> Back to ticket list</a>
+        </div>
+    </div>
+{% endblock %}

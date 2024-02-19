@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}List of tickets{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div>
+            <form action="{{ path('create_ticket') }}" method="post">
+                <input type="submit" class="btn btn-outline-primary btn-lg btn-block" value="Create Ticket">
+            </form>
+        </div>
+        <div>
+            <table>
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for ticket in tickets %}
+                    <tr>
+                        <td><a href="{{ path('ticket_view', {'id': ticket.id}) }}"
+                               class="btn btn-outline-primary btn-sm">{{ ticket.id }}</a></td>
+                        <td>{{ ticket.status }}</td>
+                            <td>
+                                {% for transition in workflow_transitions(ticket, 'ticket_workflow') %}
+                                    <a href="{{ path('ticket_change_status', {'id': ticket.id, 'transition': transition.name }) }}"
+                                       class="btn btn-outline-primary btn-sm">{{ transition.name }}</a> &nbsp;
+                                {% endfor %}
+                            </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

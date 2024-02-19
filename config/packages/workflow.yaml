@@ -1,0 +1,24 @@
+framework:
+    workflows:
+        ticket_workflow:
+            type: state_machine
+            marking_store:
+                type: method
+                property: status
+            supports:
+                - App\Entity\Ticket
+            initial_marking: registered
+            places:
+                - registered
+                - paid
+                - canceled
+            transitions:
+                paid:
+                    from: registered
+                    to: paid
+                canceled:
+                    from: [paid, registered]
+                    to: canceled
+                registered:
+                    from: canceled
+                    to: registered
